@@ -1,4 +1,5 @@
 import sys
+import copy
 from .datapath import DataPath
 from .. import syntax, util
 from .. import validators as val
@@ -14,10 +15,10 @@ class Schema(object):
     """
     def __init__(self, schema_dict, name='', validators=None, includes=None):
         self.validators = validators or val.DefaultValidators
-        self.dict = schema_dict
+        self.dict = copy.deepcopy(schema_dict)
         self.name = name
         self._schema = self._process_schema(DataPath(),
-                                            schema_dict,
+                                            self.dict,
                                             self.validators)
         # if this schema is included it shares the includes with the top level
         # schema
